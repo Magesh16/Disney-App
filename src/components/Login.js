@@ -18,7 +18,7 @@ const Login = (props)=>{
             <BgImage/>
         </Content>
     </Container>
-    )}
+    )} 
 
 const Container = styled.section`
 overflow :hidden;
