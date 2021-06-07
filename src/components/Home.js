@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider";
+import Recommends from "./Recommends";
 import Viewers from "./Viewers";
 const Home =(props)=>{
     return(
     <Container>
         <ImgSlider/>
         <Viewers/>
+        <Recommends/>
     </Container>
     )}
 
