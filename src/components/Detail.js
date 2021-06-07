@@ -22,9 +22,14 @@ const Detail = (props) => {
             <span>Trailer</span>
           </Trailer>
           <AddList>
-            <span />
-            <span />
+          <span />
+          <span />
           </AddList>
+          <GroupWatch>
+            <div>
+              <img src="/images/group-icon.png" alt="" />
+            </div>
+          </GroupWatch>
           </Controls>
             </ContentMeta>
         </Container>
@@ -149,6 +154,27 @@ const AddList = styled.div`
     background: rgb(198, 198, 260);
   }
 `;
-
+const GroupWatch = styled.div`
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: black;
+  div {
+    height: 40px;
+    width: 40px;
+    background: rgb(0, 0, 0);
+    border-radius: 50%;
+    img {
+      width: 100%;
+    }
+  }
+  &:hover {
+      background: white;
+  }
+`
 
 export default Detail;
