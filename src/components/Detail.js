@@ -130,7 +130,7 @@ const Player = styled.button`
     width: 32px;
   }
   &:hover {
-    background: rgb(198, 198, 198);
+    background: rgb(198, 198, 200);
   }
   @media (max-width: 768px) {
     height: 45px;
