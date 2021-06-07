@@ -1,18 +1,39 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
+import db from "../firebase";
 const Detail = (props) => {
-    return(
-        <Container>
-            <Background>
-                <img src="https://www.suntiros.com/wp-content/uploads/2018/08/Ajith-Kumar-Images.jpg" 
-                 alt="" />
-            </Background>
-            <ImageTitle>
-                <img src='https://i.ytimg.com/vi/ArfU_k3qqTw/maxresdefault.jpg'
-                alt =''/>
-            </ImageTitle>
-            <ContentMeta>
-            <Controls>
+    const { id } = useParams();
+    const [detailData, setDetailData] = useState({});
+  
+    useEffect(() => {
+      db.collection("movies")
+        .doc(id)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            setDetailData(doc.data());
+          } else {
+            console.log("no such document in firebase 🔥");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+    }, [id]);
+  
+
+  return (
+    <Container>
+     <Background>
+        <img alt={detailData.title} src={detailData.backgroundImg} />
+      </Background>
+
+      <ImageTitle>
+        <img alt={detailData.title} src={detailData.titleImg} />
+      </ImageTitle>
+      <ContentMeta>
+        <Controls>
           <Player>
             <img src="/images/play-icon-black.png" alt="" />
             <span>Play</span>
@@ -22,19 +43,21 @@ const Detail = (props) => {
             <span>Trailer</span>
           </Trailer>
           <AddList>
-          <span />
-          <span />
+            <span />
+            <span />
           </AddList>
           <GroupWatch>
             <div>
               <img src="/images/group-icon.png" alt="" />
             </div>
           </GroupWatch>
-          </Controls>
-            </ContentMeta>
-        </Container>
-    )
-}
+        </Controls>
+        <SubTitle>{detailData.subTitle}</SubTitle>
+        <Description>{detailData.description}</Description>
+      </ContentMeta>
+    </Container>
+  );
+};
 const Container = styled.div`
   position: relative;
   min-height: calc(100vh-250px);
@@ -57,24 +80,24 @@ const Background = styled.div`
       width: initial;
     }
   }
-`
+`;
 
 const ImageTitle = styled.div`
-align-items:flex-end;
-display: flex;
---webkit-box-pack: start;
-justify-content:flex-start;
-margin: 0px auto;
-height: 30vw;
-min-height:170px;
-padding-bottom: 24px;
-width: 100%;
-  img{
-      max-width:600px;
-      min-width:200px;
-      width:35vw;
+  align-items: flex-end;
+  display: flex;
+  --webkit-box-pack: start;
+  justify-content: flex-start;
+  margin: 0px auto;
+  height: 30vw;
+  min-height: 170px;
+  padding-bottom: 24px;
+  width: 100%;
+  img {
+    max-width: 600px;
+    min-width: 200px;
+    width: 35vw;
   }
-`
+`;
 
 const ContentMeta = styled.div`
   max-width: 874px;
@@ -118,12 +141,12 @@ const Player = styled.button`
       width: 25px;
     }
   }
-`
+`;
 const Trailer = styled(Player)`
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgb(249, 249, 249);
   color: rgb(249, 249, 249);
-`
+`;
 const AddList = styled.div`
   margin-right: 16px;
   height: 44px;
@@ -148,7 +171,6 @@ const AddList = styled.div`
       transform: translateX(-8px) rotate(0deg);
       width: 2px;
     }
-  
   }
   &:hover {
     background: rgb(198, 198, 260);
@@ -173,8 +195,26 @@ const GroupWatch = styled.div`
     }
   }
   &:hover {
-      background: white;
+    background: white;
   }
-`
+`;
+const SubTitle = styled.div`
+  color: rgb(249, 249, 249);
+  font-size: 15px;
+  min-height: 20px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+const Description = styled.div`
+  line-height: 1.4;
+  font-size: 20px;
+  padding: 16px 0px;
+  color: rgb(249, 249, 249);
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
 
 export default Detail;
